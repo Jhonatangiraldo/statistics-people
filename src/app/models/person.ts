@@ -4,6 +4,6 @@ export class Person {
     lastName: string;
     age: number;
     city: string;
-    sex:string;
+    gender: string;
     isWorking: boolean;
 }

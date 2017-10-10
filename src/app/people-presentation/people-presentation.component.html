@@ -1,15 +1,22 @@
-<mat-card>
-    <div fxLayoutAlign="center" fxLayoutWrap class="title-charts">
-      Statistics People
-    </div>
+<mat-card class="space-between-cards">
+  <div fxLayoutAlign="center" fxLayoutWrap class="title-charts">
+    Statistics People
+  </div>
   <div fxLayoutAlign="space-around" fxLayoutWrap>
     <app-pie-chart [pieChartLabels]="pieChartLabelsSex"
-                   [pieChartData]="pieChartDataSex"></app-pie-chart>
+                   [pieChartData]="pieChartDataSex">
+    </app-pie-chart>
     <app-radar-chart [radarChartLabels]="radarChartLabels"
-                     [radarChartData]="radarChartData"></app-radar-chart>
+                     [radarChartData]="radarChartData">
+    </app-radar-chart>
     <app-pie-chart [pieChartLabels]="pieChartLabelsIsWorking"
-                   [pieChartData]="pieChartDataIsWorking"></app-pie-chart>
+                   [pieChartData]="pieChartDataIsWorking">
+    </app-pie-chart>
   </div>
+</mat-card>
+
+<mat-card>
+  <app-table-people></app-table-people>
 </mat-card>
 
 

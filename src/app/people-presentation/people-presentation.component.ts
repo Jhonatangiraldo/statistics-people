@@ -48,8 +48,8 @@ export class PeoplePresentationComponent implements OnInit {
   }
 
   private getPieChartData() {
-    let Male = this.people.filter((person) => person.sex === this.M).length;
-    let feMale = this.people.filter((person) => person.sex === this.F).length;
+    let Male = this.people.filter((person) => person.gender === this.M).length;
+    let feMale = this.people.filter((person) => person.gender === this.F).length;
     let working = this.people.filter((person) => person.isWorking === true).length;
     let notWorking = this.people.filter((person) => person.isWorking === false).length;
 
@@ -59,17 +59,17 @@ export class PeoplePresentationComponent implements OnInit {
 
   private getRadarChartData() {
     //Male
-    let workingM = this.people.filter((person) => person.isWorking === true && person.sex === this.M).length;
-    let notWorkingM = this.people.filter((person) => person.isWorking === false && person.sex === this.M).length;
-    let overEighteenM = this.people.filter((person) => person.age >= 18 && person.sex === this.M).length;
-    let notOverEighteenM = this.people.filter((person) => person.age < 18 && person.sex === this.M).length;
+    let workingM = this.people.filter((person) => person.isWorking === true && person.gender === this.M).length;
+    let notWorkingM = this.people.filter((person) => person.isWorking === false && person.gender === this.M).length;
+    let overEighteenM = this.people.filter((person) => person.age >= 18 && person.gender === this.M).length;
+    let notOverEighteenM = this.people.filter((person) => person.age < 18 && person.gender === this.M).length;
     //FeMale
-    let workingF = this.people.filter((person) => person.isWorking === true && person.sex === this.F).length;
-    let notWorkingF = this.people.filter((person) => person.isWorking === false && person.sex === this.F).length;
-    let overEighteenF = this.people.filter((person) => person.age >= 18 && person.sex === this.F).length;
-    let notOverEighteenF = this.people.filter((person) => person.age < 18 && person.sex === this.F).length;
+    let workingF = this.people.filter((person) => person.isWorking === true && person.gender === this.F).length;
+    let notWorkingF = this.people.filter((person) => person.isWorking === false && person.gender === this.F).length;
+    let overEighteenF = this.people.filter((person) => person.age >= 18 && person.gender === this.F).length;
+    let notOverEighteenF = this.people.filter((person) => person.age < 18 && person.gender === this.F).length;
 
-    this.radarChartData = [  { data: [ workingM, overEighteenM,notWorkingM, notOverEighteenF ], label: this.Male },
+    this.radarChartData = [  { data: [ workingM, overEighteenM, notWorkingM, notOverEighteenF ], label: this.Male },
                              { data: [ workingF, notWorkingF, overEighteenF, notOverEighteenF ], label: this.Female },
                           ];
 

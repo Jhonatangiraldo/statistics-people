@@ -1,3 +1,61 @@
-<p>
-  table-people works!
-</p>
+<div>
+    <button mat-raised-button color="primary" (click)="addUser()">Add User</button>
+    <button mat-raised-button color="primary" (click)="deleteUser()">Delete User</button>
+
+    <form class="form-search">
+      <mat-form-field class="search-full-width">
+        <input matInput #filter placeholder="Search" (keyup)="filterKeyUp()">
+      </mat-form-field>
+    </form>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+       </ng-container>
+
+      <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> First Name </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.firstName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.lastName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="age">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Age </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.age}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="city">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.city}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="gender">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Gender </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+              <span *ngIf="row.gender === 'M'">{{'Male'}}</span>
+              <span *ngIf="row.gender === 'F'">{{'Female'}}</span>
+          </mat-cell>
+        </ng-container>
+
+      <ng-container matColumnDef="isWorking">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Is Working </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.isWorking}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator
+                   [length]="dataPeople?.data?.length"
+                   [pageIndex]="0"
+                   [pageSize]="5"
+                   [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+
+</div>
