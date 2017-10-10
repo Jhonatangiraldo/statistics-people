@@ -1,0 +1,24 @@
+<mat-card>
+    <div fxLayoutAlign="center" fxLayoutWrap class="title-charts">
+      Statistics People
+    </div>
+  <div fxLayoutAlign="space-around" fxLayoutWrap>
+    <app-pie-chart [pieChartLabels]="pieChartLabelsSex"
+                   [pieChartData]="pieChartDataSex"></app-pie-chart>
+    <app-radar-chart [radarChartLabels]="radarChartLabels"
+                     [radarChartData]="radarChartData"></app-radar-chart>
+    <app-pie-chart [pieChartLabels]="pieChartLabelsIsWorking"
+                   [pieChartData]="pieChartDataIsWorking"></app-pie-chart>
+  </div>
+</mat-card>
+
+
+
+<!--<div class="button-row">
+  <button mat-raised-button>Basic</button>
+  <button mat-raised-button color="primary">Primary</button>
+  <button mat-raised-button color="accent">Accent</button>
+  <button mat-raised-button color="warn">Warn</button>
+  <button mat-raised-button disabled>Disabled</button>
+  <a mat-raised-button routerLink=".">Link</a>
+</div>-->
