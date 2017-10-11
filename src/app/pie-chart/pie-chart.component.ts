@@ -9,6 +9,5 @@ export class PieChartComponent {
 
   @Input() pieChartLabels: string[];
   @Input() pieChartData: number[];
-
   public pieChartType:string = 'pie';
 }

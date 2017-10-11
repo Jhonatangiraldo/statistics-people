@@ -1,6 +1,8 @@
+import { SETPEOPLE } from './../reducer/reducer';
 import { Person } from './../models/person';
 import { PeopleService } from './../services/people.service';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-people-presentation',
@@ -10,6 +12,7 @@ import { Component, OnInit } from '@angular/core';
 export class PeoplePresentationComponent implements OnInit {
 
   private people: Person[];
+  private peopleStore: Store<any>;
   //Pie chart
   public pieChartLabelsSex:string[];
   public pieChartDataSex:number[];
@@ -26,28 +29,39 @@ export class PeoplePresentationComponent implements OnInit {
   private M = 'M';
   private F = 'F';
 
-  constructor( private peopleService: PeopleService ) {}
+  constructor( private peopleService: PeopleService,
+               private store:Store<any> ) {
+    this.peopleStore = this.store.select('people');
+  }
 
   ngOnInit() {
-    this.getData();
+    this.people = [];
+    this.setReducerSubscription();
     this.setLabels();
+    this.getData();
   }
 
-  private setLabels() {
-    this.pieChartLabelsSex = [this.Male, this.Female];
-    this.pieChartLabelsIsWorking = [this.Working, this.NotWorking];
-    this.radarChartLabels = [this.Working, 'Over Eighteen', this.NotWorking, 'Not over Eighteen'];
-  }
-
-  private getData() {
-    this.peopleService.getPeople().subscribe( (result) => {
-      this.people = result;
+  private setReducerSubscription(): void {
+    this.peopleStore.subscribe( (result) => {
+      this.people = result
       this.getPieChartData();
       this.getRadarChartData();
     });
   }
 
-  private getPieChartData() {
+  private setLabels(): void {
+    this.pieChartLabelsSex = [this.Male, this.Female];
+    this.pieChartLabelsIsWorking = [this.Working, this.NotWorking];
+    this.radarChartLabels = [this.Working, 'Over Eighteen', this.NotWorking, 'Not over Eighteen'];
+  }
+
+  private getData(): void {
+    this.peopleService.getPeople().subscribe( (result) => {
+      this.store.dispatch({ type: SETPEOPLE, payload: result});
+    });
+  }
+
+  private getPieChartData(): void {
     let Male = this.people.filter((person) => person.gender === this.M).length;
     let feMale = this.people.filter((person) => person.gender === this.F).length;
     let working = this.people.filter((person) => person.isWorking === true).length;
@@ -57,7 +71,7 @@ export class PeoplePresentationComponent implements OnInit {
     this.pieChartDataIsWorking = [working, notWorking];
   }
 
-  private getRadarChartData() {
+  private getRadarChartData(): void {
     //Male
     let workingM = this.people.filter((person) => person.isWorking === true && person.gender === this.M).length;
     let notWorkingM = this.people.filter((person) => person.isWorking === false && person.gender === this.M).length;
@@ -72,7 +86,5 @@ export class PeoplePresentationComponent implements OnInit {
     this.radarChartData = [  { data: [ workingM, overEighteenM, notWorkingM, notOverEighteenF ], label: this.Male },
                              { data: [ workingF, notWorkingF, overEighteenF, notOverEighteenF ], label: this.Female },
                           ];
-
   }
-
 }

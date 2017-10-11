@@ -5,7 +5,6 @@ import { MatPaginator } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { Observable } from 'rxjs/Observable';
 import { MatSort } from '@angular/material';
-import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
 
@@ -14,7 +13,7 @@ import 'rxjs/add/operator/map';
 })
 
 export class TableDataSource extends DataSource<any> {
-    _filterChange = new BehaviorSubject('');
+    private _filterChange = new BehaviorSubject('');
     get filter(): string { return this._filterChange.value; }
     set filter(filter: string) { this._filterChange.next(filter); }
 
@@ -25,7 +24,7 @@ export class TableDataSource extends DataSource<any> {
     }
 
     /** Connect function called by the table to retrieve one stream containing the data to render. */
-    connect(): Observable<any[]> {
+    connect(): Observable<Person[]> {
       const displayDataChanges = [
         this.dataTable.dataChange,
         this._paginator.page,
@@ -51,7 +50,7 @@ export class TableDataSource extends DataSource<any> {
     }
 
     /** Returns a sorted copy of the database data. */
-    getSortedData(data): any[] {
+    getSortedData(data): Person[] {
       if (!this._sort.active || this._sort.direction == '') { return data; }
 
       return data.sort( (a, b) => {
@@ -77,6 +76,8 @@ export class TableDataSource extends DataSource<any> {
                 [propertyA, propertyB] = [a.gender, b.gender];
             break;
           case 'isWorking':
+                [propertyA, propertyB] = [a.isWorking, b.isWorking];
+          case 'job':
                 [propertyA, propertyB] = [a.isWorking, b.isWorking];
             break;
         }

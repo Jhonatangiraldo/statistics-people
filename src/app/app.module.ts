@@ -1,3 +1,4 @@
+import { mainReducer } from './reducer/reducer';
 import { PeopleService } from './services/people.service';
 import { MaterialModule } from './material-components/material-imports.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,6 +11,7 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { RadarChartComponent } from './radar-chart/radar-chart.component';
 import { TablePeopleComponent } from './table-people/table-people.component';
 import { ChartsModule } from 'ng2-charts';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { ChartsModule } from 'ng2-charts';
     BrowserModule,
     BrowserAnimationsModule,
     ChartsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    StoreModule.forRoot(mainReducer)
   ],
   providers: [PeopleService],
   bootstrap: [AppComponent]

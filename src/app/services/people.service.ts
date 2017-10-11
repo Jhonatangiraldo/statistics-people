@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class PeopleService {
 
-  people: Person[] = [
+  public people: Person[] = [
     { id: 1, firstName: 'Waylon', lastName: 'Dalton', age: 12, city: 'New York', gender:'M', isWorking: true },
     { id: 2, firstName: 'Justine', lastName: 'Henderson', age: 34, city: 'Venice', gender:'F', isWorking: false  },
     { id: 3, firstName: 'Abdullah', lastName: 'Lang', age: 34, city: 'Hong Kong', gender:'F', isWorking: true  },
