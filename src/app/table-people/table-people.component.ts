@@ -1,3 +1,5 @@
+import { NotificationService } from 'ng2-notify-popup';
+import { ModalService } from './../services/modal.service';
 import { SETPEOPLE } from './../reducer/reducer';
 import { Store } from '@ngrx/store';
 import { MatPaginator, MatSort } from '@angular/material';
@@ -28,6 +30,8 @@ export class TablePeopleComponent implements OnInit {
   @ViewChild( 'filter' ) filter: ElementRef;
 
   constructor( private peopleService: PeopleService,
+               private modalService: ModalService,
+               private notify: NotificationService,
                private store:Store<any> ) {
     this.peopleStore = this.store.select('people');
   }
@@ -56,6 +60,38 @@ export class TablePeopleComponent implements OnInit {
   private deleteFirstUser(): void {
     this.dataSource.dataTable.data.splice(0, 1);
     this.renderDataRedux();
+  }
+
+  private addUser(): void {
+    this.modalService.openAddUser().subscribe( (result) => {
+      this.responseAddUser(result);
+    });
+  }
+
+  private responseAddUser(result) {
+    if (result instanceof Object) {
+      let id = this.dataSource.dataTable.data.reduce((previous, current) =>  {
+        return previous.id > current.id ? previous : current
+      }).id;
+      result.id = id + 1;
+      this.dataSource.dataTable.data.unshift(result);
+      this.showSuccess();
+      this.renderDataRedux();
+    } else {
+      this.ShowNotSuccess();
+    }
+  }
+
+  private showSuccess() {
+    let message: string = "User created";
+    let options: {} = { position:'top', duration:'2000', type: 'success' };
+    this.notify.show(message, options);
+  }
+
+  private ShowNotSuccess() {
+    let message: string = "User not created";
+    let options: {} = { position:'top', duration:'2000', type: 'grimace' };
+    this.notify.show(message, options);
   }
 
   private getJob(row): void {
