@@ -48,7 +48,7 @@
 
   <ng-container matColumnDef="job">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Get Job </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef="let row" class="space-between-buttons">
         <div *ngIf="!row.isWorking">
           <button mat-raised-button color="primary" (click)="getJob(row)">Get job</button>
         </div>
