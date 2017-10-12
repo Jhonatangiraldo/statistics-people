@@ -1,5 +1,5 @@
 <button mat-raised-button color="primary" (click)="addUser()">Add User</button>
-<button mat-raised-button color="primary" (click)="deleteFirstUser()">Delete First User</button>
+<button mat-raised-button color="accent" (click)="deleteFirstUser()">Delete First User</button>
 
 <form class="form-search">
   <mat-form-field class="search-full-width">
@@ -55,6 +55,13 @@
         <div *ngIf="row.isWorking">
             <button mat-raised-button (click)="loseJob(row)">Lose Job</button>
         </div>
+      </mat-cell>
+   </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-raised-button color="accent" (click)="deletePerson(row)">Delete</button>
       </mat-cell>
     </ng-container>
 

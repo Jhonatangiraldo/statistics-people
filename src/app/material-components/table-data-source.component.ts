@@ -1,23 +1,25 @@
+import { DataTable } from './../models/dataTable';
 import { Person } from './../models/person';
 import { Component, NgModule } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { MatSort } from '@angular/material';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
 
+
 @Component({
   selector: 'app-table-data-source',
 })
 
-export class TableDataSource extends DataSource<any> {
+export class TableDataSource extends DataSource<{}> {
     private _filterChange = new BehaviorSubject('');
     get filter(): string { return this._filterChange.value; }
     set filter(filter: string) { this._filterChange.next(filter); }
 
-    constructor(public dataTable: any,
+    constructor(public dataTable: DataTable,
                 private _paginator: MatPaginator,
                 private _sort: MatSort) {
       super();
@@ -33,17 +35,17 @@ export class TableDataSource extends DataSource<any> {
       ];
 
       return Observable.merge(...displayDataChanges).map(() => {
-        //Filter Data
+        // Filter Data
         let dataTable = this.dataTable.data.slice().filter((item: Person) => {
           let searchStr = (item.id + item.firstName + item.lastName + item.age +
                            item.city + item.gender + item.isWorking).toLowerCase();
           return searchStr.includes(this.filter.toLowerCase());
         });
 
-        //sorted
+        // sorted
         const data = this.getSortedData(dataTable);
 
-        //paginated
+        // paginated
         const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
         return data.splice(startIndex, this._paginator.pageSize);
       });
@@ -51,7 +53,7 @@ export class TableDataSource extends DataSource<any> {
 
     /** Returns a sorted copy of the database data. */
     getSortedData(data): Person[] {
-      if (!this._sort.active || this._sort.direction == '') { return data; }
+      if (!this._sort.active || this._sort.direction === '') { return data; }
 
       return data.sort( (a, b) => {
         let propertyA: number|string = '';
@@ -72,20 +74,25 @@ export class TableDataSource extends DataSource<any> {
             break;
           case 'city':
                 [propertyA, propertyB] = [a.city, b.city];
+            break;
           case 'gender':
                 [propertyA, propertyB] = [a.gender, b.gender];
             break;
           case 'isWorking':
                 [propertyA, propertyB] = [a.isWorking, b.isWorking];
+            break;
           case 'job':
                 [propertyA, propertyB] = [a.isWorking, b.isWorking];
+            break;
+          case 'delete':
+            [propertyA, propertyB] = [a.id, b.id];
             break;
         }
 
         let valueA = isNaN(+propertyA) ? propertyA : +propertyA;
         let valueB = isNaN(+propertyB) ? propertyB : +propertyB;
 
-        return (valueA < valueB ? -1 : 1) * (this._sort.direction == 'asc' ? 1 : -1);
+        return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
       });
     }
 

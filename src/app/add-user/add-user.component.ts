@@ -1,6 +1,7 @@
+import { Person } from './../models/person';
 import { MaterialModule } from './../material-components/material-imports.module';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialogRef} from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
 import { NotificationService } from 'ng2-notify-popup';
 
@@ -26,8 +27,7 @@ export class AddUserComponent implements OnInit {
   private cityFormControl: FormControl;
 
   constructor( public dialogRef: MatDialogRef<AddUserComponent>,
-               private notify: NotificationService,
-               @Inject(MAT_DIALOG_DATA) public data: any ) { }
+               private notify: NotificationService ) { }
 
   ngOnInit() {
     this.setFields();
@@ -75,12 +75,21 @@ export class AddUserComponent implements OnInit {
       this.showErrorInValidation();
       return;
     } else {
-      let user = {
-        firstName: this.firstName, lastName: this.lastName, age: this.age,
-        city: this.city, gender: this.gender, isWorking: this.isWorking
-      };
+      let user: Person = this.fillUserInformation();
       this.dialogRef.close(user);
     }
+  }
+
+  private fillUserInformation(): Person {
+    let user: Person = new Person;
+    user.id = null;
+    user.firstName = this.firstName;
+    user.lastName = this.lastName;
+    user.age = this.age;
+    user.city = this.city;
+    user.gender = this.gender;
+    user.isWorking = this.isWorking;
+    return user;
   }
 
   private validationFields(): boolean {
@@ -89,7 +98,7 @@ export class AddUserComponent implements OnInit {
   }
 
   private showErrorInValidation() {
-    let message: string = "Complete all fields (and write a age with minimum 1)";
+    let message: string = 'Complete all fields (and write an age with minimum 1)';
     let options: {} = { position:'top', duration:'2000', type: 'error' };
     this.notify.show(message, options);
   }
